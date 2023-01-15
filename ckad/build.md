@@ -81,7 +81,7 @@ Make sure the container runs in detached mode.
 podman run --name nginx -d -p 8081:80 nginx:alpine
 # or
 docker run --name nginx -d -p 8081:80 nginx:alpine
-
+```
 Test that the container returns the expected html page
 ```
 curl http://localhost:8081
@@ -117,7 +117,7 @@ Run the nginx:alpine-modified image in detached mode with name nginx-modified an
 ```
 podman run --name nginx-modified -d -p 8082:80 nginx:alpine-modified
 # or
-
+docker run --name nginx-modified -d -p 8082:80 nginx:alpine-modified
 ```
 
 Test that the page returns the expected result.
