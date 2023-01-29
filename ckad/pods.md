@@ -1,16 +1,29 @@
 Create a Pod with name nginx-app that is running the nginx:1.23.1-alpine image with label app=nginx.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl run nginx-app --image=nginx:1.23.1-alpine --labels=app=nginx
 ```
+</details>
+<p>&nbsp;</p>
 
 Create a Pod with name sleeper that is running the busybox:latest image. It should execute command to print envinronment variables and sleep for 10 minutes.
-Check the logs of the container to verify it's working/
+Check the logs of the container to verify it's working.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl run sleeper --image=busybox:latest -- /bin/sh -c "env && sleep 600"
 kubectl logs sleeper
 ```
+</details>
+<p>&nbsp;</p>
 
 Create a Pod with name limited that is running the nginx:1.23.1-alpine image. The pod should request 200Mi memory and 200m cpu. The limits should be twice the amount of the request.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl run limited --image=nginx:1.23.1-alpine --dry-run=client -o yaml > tmp.yml
 vim tmp.yml
@@ -38,8 +51,13 @@ status: {}
 
 kubectl apply -f tmp.yml
 ```
+</details>
+<p>&nbsp;</p>
 
 Create a Pod with name secured that is running the redis image. The container should run as user 1000, run as group 2000 and it should not allow privilege escalation.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl run secured --image=redis --dry-run=client -o yaml > redis.yml
 vim tmp.yml
@@ -65,11 +83,16 @@ status: {}
 
 kubectl apply -f redis.yml
 ```
+</details>
+<p>&nbsp;</p>
 
 
 Create a generic secret named credentials with data username=admin and password=admin.
 Create a Pod with name nginx running the nginx:latest image that mounts this secret as a volume at /tmp .
 Make sure the secret is mounted properly.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl create secret generic credentials --from-literal=username=admin --from-literal=password=admin
 kubectl run nginx --image=nginx:latest --dry-run=client -o yaml > nginx.yml
@@ -100,23 +123,45 @@ kubectl apply -f nginx.yml
 kubectl get po nginx
 kubectl exec nginx -- ls /tmp
 ```
+</details>
+<p>&nbsp;</p>
 
 List all running Pods and their labels in the dev namespace.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl get po --show-labels -n dev
 ```
+</details>
+<p>&nbsp;</p>
 
 List all running Pods sorted by their age.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl get po --sort-by={.metadata.creationTimestamp}
 ```
+</details>
+<p>&nbsp;</p>
 
 Label all Pods that have label app: fe or app: web with label ui: true in the dev namespace.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl label po ui=true -l "app in (fe,web)" -n dev
 ```
+</details>
+<p>&nbsp;</p>
 
 Show only the status of the running Pod pod15 in the default namespace.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl get po pod15 -o jsonpath="{.status.phase}"
 ```
+</details>
+<p>&nbsp;</p>

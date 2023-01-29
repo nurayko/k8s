@@ -1,20 +1,38 @@
 Create a Deployment webserver running the nginx:alpine image with 3 replicas.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl create deploy webserver --image=nginx:alpine --replicas=3
 ```
+</details>
+<p>&nbsp;</p>
 
-Change the image of webserver Deployment to nginx:latest and record the changes
+Change the image of webserver Deployment to nginx:latest and record the changes.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl set image deploy webserver nginx=nginx:latest --record
 ```
+</details>
+<p>&nbsp;</p>
 
 Rollback the webserver Deployment to it's previous version
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl rollout undo deploy webserver
 ```
+</details>
+<p>&nbsp;</p>
 
 Create a Deployment busy with image busybox. The Deployment should execute the command touch /tmp/ready && sleep 1d and implement readiness probe which executes the command cat /tmp/ready every 15 seconds.
 The readiness probe should have initial delay of 10 seconds.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl create deploy busy --image=busybox --dry-run=client -o yaml -- /bin/sh -c "touch /tmp/ready && sleep 1d" > busy.yml
 vim busy.yml
@@ -57,8 +75,13 @@ kubectl create -f busy.yml
 # after ~25 seconds the Deployment should be 1/1 Ready
 kubectl get deploy busy
 ```
+</details>
+<p>&nbsp;</p>
 
 Create a Deployment with name redis using the redis:latest image. Change the Deployment strategy to Recreate. Make sure the Pods are not running as root.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl create deploy redis --image=redis:latest --replicas=2 --dry-run=client -o yaml > rd.yml
 apiVersion: apps/v1
@@ -90,17 +113,27 @@ spec:
 status: {}
 kubectl create -f rd.yml
 ```
+</details>
+<p>&nbsp;</p>
 
 Scale the redis Deployment to have 4 replicas.
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl scale deploy redis --replicas=4
 ```
+</details>
+<p>&nbsp;</p>
 
 Create a ConfigMap with name petnames and key-value pairs:
 dog=Rock
 cat=Smith
 Mount the ConfigMap as a volume at /tmp/pets in the new Deployment pets which should run busybox image with 1 replica and the following command:
 while true ; do test -d /tmp/pets && cat /tmp/pets/* ; sleep 30 ; done
+<details>
+  <summary>Answer</summary>
+
 ```
 kubectl create configmap petnames --from-literal=dog=Rock --from-literal=cat=Smith
 kubectl create deploy pets --image=busybox --replicas=1 --dry-run=client -o yaml -- /bin/sh -c "while true ; do test -d /tmp/pets && cat /tmp/pets/* ; sleep 30 ; done" > pets.yml
@@ -142,3 +175,5 @@ spec:
 status: {}
 kubectl create -f pets.yml
 ```
+</details>
+<p>&nbsp;</p>
